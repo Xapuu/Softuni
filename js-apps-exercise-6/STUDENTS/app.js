@@ -43,9 +43,10 @@ function addTableRow(tbody, bookValue, bookId) {
         studentEntity.getAll()
             .then(students => {
                 let nextStudentId = !students ? 0 : Object.keys(students).length;
-                updateStudent(formResult, nextStudentId)
+                studentEntity.updateEntity(formResult, nextStudentId)
                     .then(() => studentEntity.getAll())
                     .then(students => {
+                        bodyRef.innerHTML='';
                         Object.entries(students).map(([id, studentData]) => {
                             addTableRow(bodyRef, studentData, id);
                         });
