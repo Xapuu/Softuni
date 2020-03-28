@@ -4,6 +4,10 @@
  * @param {string} collectionName entity name
  */
 export const fireBaseRequestFactory = (apiKey, collectionName, token) => {
+    if (!apiKey) {
+        throw new Error('You must provide api key');
+    }
+    
     if (!apiKey.endsWith('/')) {
         throw new Error('The api key must end with "/"');
     }
@@ -14,7 +18,7 @@ export const fireBaseRequestFactory = (apiKey, collectionName, token) => {
      * Returns all elements from firebase database collection
      */
     const getAll = () => {
-        return fetch(collectionUrl + '.json' + (token ? `?auth=${token}`:'').then(x => x.json()));
+        return fetch(collectionUrl + '.json' + (token ? `?auth=${token}`:'')).then(x => x.json());
     };
 
     /**
@@ -30,7 +34,6 @@ export const fireBaseRequestFactory = (apiKey, collectionName, token) => {
      * @param {{[key:string]: any}} entityBody javascript object
      */
     const createEntity = (entityBody) => {
-        debugger
         return fetch(collectionUrl + '.json'+ (token ? `?auth=${token}`:''), {
             method: 'POST',
             body: JSON.stringify(entityBody)
